@@ -43,7 +43,9 @@ pipeline {
                         // Build and push the Docker image using Docker CLI commands
                         sh "whoami"
                         sh "docker build -t ${env.DOCKER_IMAGE_NAME}:1.0.0 ."
-                        sh "docker push ${env.DOCKER_IMAGE_NAME}:1.0.0"
+                        sh 'docker push esraaelhasanen/flask-img:1.0.0
+'
+                        //sh "docker push ${env.DOCKER_IMAGE_NAME}:1.0.0"
                     }
 
                 }
