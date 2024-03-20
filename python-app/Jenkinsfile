@@ -18,7 +18,15 @@ pipeline {
         stage('Clone Repo') {
 
             steps {
-                sh "git clone https://github.com/esraasoror22/Deplying-FlaskApp.git"
+                script {
+
+                  if (fileExists('Deplying-FlaskApp')) {
+                        // If it exists, delete it
+                        sh 'rm -rf Deplying-FlaskApp'
+                    }
+                
+                    sh "git clone https://github.com/esraasoror22/Deplying-FlaskApp.git"
+                }
 
 
             }
@@ -30,6 +38,7 @@ pipeline {
 
             steps {
                 script {
+                    
                     dir('Deplying-FlaskApp/python-app') {
                         // Build and push the Docker image using Docker CLI commands
                         sh "whoami"
