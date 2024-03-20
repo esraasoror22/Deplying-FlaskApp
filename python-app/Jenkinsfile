@@ -1,19 +1,59 @@
-
-
-pipeline{
+pipeline {
 
     agent {
 
-        label ''
+        label 'jenkins-slave-1'
     }
+
+    environment {
+
+        DOCKER_CREDENTIALS_ID = 'esraaelhasanen' // ID of Docker Hub credentials in Jenkins
+        DOCKER_IMAGE_NAME = 'esraaelhasanen/flask-img'
+
+    }
+
 
     stages {
 
         stage('Clone Repo') {
 
+            steps {
 
+                git 'https://github.com/esraasoror22/Deplying-FlaskApp.git'
+
+            }
 
         }
+
+
+        stage('Build docker image') {
+
+            steps {
+                script {
+                    dir('Deplying-FlaskApp/python-app') {
+                        // Build and push the Docker image using Docker CLI commands
+                        sh "docker build -t ${env.DOCKER_IMAGE_NAME} ."
+                        sh "docker push ${env.DOCKER_IMAGE_NAME}"
+                    }
+
+                }
+
+            }
+        }
+
+        stage('Run container') {
+
+            steps {
+
+                script{
+
+                  sh "docker run -p 5000:5000 -name c1 -d ${env.DOCKER_IMAGE_NAME}"
+                }
+
+            }
+        }
+
+
 
     }
 
