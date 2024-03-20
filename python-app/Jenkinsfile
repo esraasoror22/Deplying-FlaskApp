@@ -18,8 +18,8 @@ pipeline {
         stage('Clone Repo') {
 
             steps {
+                git clone 'https://github.com/esraasoror22/Deplying-FlaskApp.git'
 
-                git 'https://github.com/esraasoror22/Deplying-FlaskApp.git'
 
             }
 
