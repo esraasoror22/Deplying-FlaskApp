@@ -33,7 +33,6 @@ pipeline {
                     dir('Deplying-FlaskApp/python-app') {
                         // Build and push the Docker image using Docker CLI commands
                         sh "whoami"
-                        sh "echo 12345 | sudo -S chmod 666 /var/run/docker.sock"
                         sh "docker build -t ${env.DOCKER_IMAGE_NAME} ."
                         sh "docker push ${env.DOCKER_IMAGE_NAME}"
                     }
