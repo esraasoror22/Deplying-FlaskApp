@@ -9,6 +9,8 @@ RUN apt-get update &&\
 
 COPY . /app/
 
+RUN pip3 install --upgrade Flask Werkzeug
+
 # Expose the port the app runs on
 EXPOSE 5000
 
