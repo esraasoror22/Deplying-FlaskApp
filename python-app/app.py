@@ -1,5 +1,5 @@
 from flask import Flask ,render_template
-
+from werkzeug.urls import quote
 app = Flask(__name__)
 
 @app.route('/')
