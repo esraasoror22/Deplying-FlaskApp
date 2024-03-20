@@ -60,7 +60,7 @@ pipeline {
 
                 script{
 
-                  sh "docker run -p 5000:5000 --name c1 -d ${env.DOCKER_IMAGE_NAME}"
+                  sh "docker run -p 5000:5000 -d  ${env.DOCKER_IMAGE_NAME}"
                 }
 
             }
