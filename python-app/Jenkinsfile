@@ -71,6 +71,17 @@ pipeline {
             steps {
 
                 script{
+                    // Check if a container is running on port 5000
+                    def containerExists = sh(script: "docker ps -a --format '{{.Ports}}' | grep ':5000->'", returnStatus: true)
+                    
+                    if (containerExists == 0) {
+                        // Container running on port 5000 exists, delete it
+                        sh "docker ps -a --format '{{.ID}}' | grep '$(docker ps -a --format '{{.Ports}}' | grep ':5000->' | awk '{print $1}')' | xargs docker rm -f"
+                        echo "Container running on port 5000 deleted successfully."
+                    } else {
+                        echo "No container running on port 5000 found."
+                    }
+                
 
                   sh 'docker run -p 5000:5000 -d  esraaelhasanen/flask-img:2.0.1 '
                 }
