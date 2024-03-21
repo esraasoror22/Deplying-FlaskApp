@@ -7,7 +7,7 @@ pipeline {
 
     environment {
 
-        DOCKER_CREDENTIALS_ID = 'esraaelhasanen' // ID of Docker Hub credentials in Jenkins
+        DOCKER_CREDENTIALS_ID = 'esraasoror' // ID of Docker Hub credentials in Jenkins
         DOCKER_IMAGE_NAME = 'esraaelhasanen/flask-img'
 
     }
@@ -34,7 +34,18 @@ pipeline {
         }
 
       
-        
+        stage ('Docker login') {
+            steps{
+
+                 // Pull DockerHub credentials
+                withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    // Log in to DockerHub
+                    sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                    
+                    // Pull Docker image (replace 'your-docker-image' with your actual image name)
+
+            }
+        }
         stage('Build docker image') {
 
             steps {
@@ -43,8 +54,8 @@ pipeline {
                     dir('Deplying-FlaskApp/python-app') {
                         // Build and push the Docker image using Docker CLI commands
                         sh "whoami"
-                        sh "docker build -t ${env.DOCKER_IMAGE_NAME}:1.0.1 ."
-                        //sh 'docker push esraaelhasanen/flask-img:1.0.0'
+                        sh "docker build -t ${env.DOCKER_IMAGE_NAME}:2.0.1 ."
+                        sh 'docker push esraaelhasanen/flask-img:2.0.1'
 
                         //sh "docker push ${env.DOCKER_IMAGE_NAME}:1.0.0"
                     }
@@ -60,7 +71,7 @@ pipeline {
 
                 script{
 
-                  sh "docker run -p 5000:5000 -d  ${env.DOCKER_IMAGE_NAME}"
+                  sh "docker run -p 5000:5000 -d  esraaelhasanen/flask-img:2.0.1"
                 }
 
             }
